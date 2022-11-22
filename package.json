@@ -1,0 +1,25 @@
+{
+  "name": "recrutr-backend",
+  "version": "0.0.0",
+  "description": "Recrutr backend server",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ameyzing09/recrutr-backend.git"
+  },
+  "author": "Amey Kode",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ameyzing09/recrutr-backend/issues"
+  },
+  "homepage": "https://github.com/ameyzing09/recrutr-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.25.6"
+  }
+}
