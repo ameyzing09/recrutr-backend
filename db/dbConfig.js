@@ -1,14 +1,15 @@
 require("dotenv").config()
 const fs = require('fs')
 const Sequelize = require('sequelize')
-const logger = require('../../lib/logger')('sequelize.js')
+const logger = require('../lib/logger')('sequelize.js')
 
 class sequelize {
     async init() {
         try {
-            const dbConfig = await this.getDBConfig();
+            const dbConfig = this.getDBConfig();
             const monitorDBConfig = JSON.parse(dbConfig.DB_CONFIG)
-
+            console.log("Dbconfig : ", dbConfig)
+            console.log("monitorDBConfig : ", monitorDBConfig)
             this.sequelize = new Sequelize(
                 dbConfig.DB_NAME,
                 dbConfig.DB_USER,
@@ -27,10 +28,10 @@ class sequelize {
                 },
             )
 
-            fs.readdirSync(`${__dirname}/`)
-            .filter(file => (file.indexOf('.') !== 0) && (file.indexOf('.js') > 0))
+            fs.readdirSync(`${__dirname}/models/`)
+            .filter(file => (file.indexOf('.') !== 0) && (file !== 'index.js') && (file.indexOf('.js') > 0))
             .forEach(file => {
-                const model = require(`${__dirname}/${file}`)
+                const model = require(`${__dirname}/models/${file}`)
                 model.init(this.sequelize)
             })
 
@@ -46,7 +47,7 @@ class sequelize {
         }
     }
 
-    async getDBConfig() {
+    getDBConfig() {
         // console.log('getDBConfig : ',process.env.DB_HOST, process.env.DB_USER, process.env.DB_PASSWORD, process.env.DB_CONFIG)
         if(process.env.DB_HOST && process.env.DB_USER && process.env.DB_PASSWORD && process.env.DB_CONFIG) {
             return {

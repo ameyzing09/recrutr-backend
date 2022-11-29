@@ -1,24 +1,27 @@
-const express = require('express')
-const sequelize = require('./db/models/dbConfig')
+require("dotenv").config();
+const express = require("express");
+const http = require("http");
 
-const app = express()
+const userApp = require("./lib/userApp");
+const sequelize = require("./db/dbConfig");
 
-require('dotenv').config()
+const logger = require("./lib/logger")("app.js");
 
-const logger = require('./lib/logger')('app.js')
-
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 8080;
 
 async function startBackendServer() {
-    try {
-        await sequelize.init()
-        logger.info("Database connection successful")
-    } catch (error) {
-        logger.error("Error starting backend server : ", error)
-        throw error
-    }
+  try {
+    await sequelize.init();
+    logger.info("Database connection successful");
+  } catch (error) {
+    logger.error("Error connecting to the database : ", error);
+    throw error;
+  }
 }
 
 startBackendServer()
 
-app.listen(PORT, () => logger.info(`Backend server started at port ${PORT}`))
+userApp.initialiseBackendServer();
+http
+  .createServer(userApp.app)
+  .listen(PORT, () => logger.info(`Backend server started at port ${PORT}`));
