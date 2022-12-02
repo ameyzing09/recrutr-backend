@@ -24,5 +24,3 @@ userApp.initialiseBackendServer();
 http
   .createServer(userApp.app)
   .listen(PORT, () => logger.info(`Backend server started at port ${PORT}`));
-
-app.listen(PORT, () => logger.info(`Backend server started at port ${PORT}`))
