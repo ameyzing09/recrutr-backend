@@ -31,7 +31,7 @@ class User extends Model {
             },
 
             role: {
-                type: DataTypes.ENUM( 'ADMIN', 'HR', 'INTERVIEWER'),
+                type: DataTypes.ENUM('ADMIN', 'HR', 'INTERVIEWER'),
                 allowNull: false
             },
 
