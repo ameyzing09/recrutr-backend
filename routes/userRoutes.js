@@ -3,6 +3,7 @@ const StandardResponse = require('./StandardResponse')
 const { HTTP_ERRORS, ERROR_MESSAGES } = require('../constants/apiContants')
 
 const userRoute = require('./userRouter')
+const logger = require('../lib/logger')('userRoutes.js')
 
 const response = new StandardResponse()
 
@@ -12,6 +13,7 @@ class UserRoutes {
     }
 
     init() {
+        logger.debug('In userRoutes init() ')
         this.app.use('/api', userRoute)
 
         this.app.use((req, res) => {
