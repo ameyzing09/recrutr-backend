@@ -9,6 +9,11 @@ const API_CONSTANTS = {
         SERVICE_UNAVAILABLE: 503
     },
 
+    HTTP_SUCCESS: {
+        SUCCESS: 200,
+        CREATED: 201
+    },
+
     ERROR_MESSAGES: {
         INVALID_REQUEST: {
             code: 'INVALID_REQUEST',
@@ -21,7 +26,26 @@ const API_CONSTANTS = {
         NOT_FOUND: {
             code: 'NOT_FOUND',
             message: 'Not found'
-        }
+        },
+        USER_NOT_FOUND: {
+            code: "USER_NOT_FOUND",
+            message: "User not found"
+        },
+        USER_ALREADY_EXISTS: {
+            code: "USER_ALREADY_EXISTS",
+            message: "User already exists"
+        },
+        INVALID_CREDENTIALS: {
+            code: "INVALID_CREDENTIALS",
+            message: "Invalid credentials"
+        },
+    },
+
+    SUCCESS_MESSAGE: {
+        USER_CREATED: {
+            code: 'USER_CREATED',
+            message: 'User created'
+        },
     }
 }
 
