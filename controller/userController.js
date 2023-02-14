@@ -59,6 +59,7 @@ const createLogin = async (req, res) => {
 
 const login = async (req, res) => {
   try {
+    
     const { username, password } = req.body;
     const existingUser = await userModel.findOne({ where: { username }, raw: true });
     if (!existingUser) {
@@ -86,7 +87,7 @@ const login = async (req, res) => {
       { id: existingUser.id, username: existingUser.username },
       process.env.JWT_TOKEN_SECRET_KEY
     );
-    logger.info("User login successful");
+    logger.info(`User login successful ${JSON.stringify(existingUser)} and token ${token}`);
     return response.sendSuccessResponse(res, { user: existingUser, token });
   } catch (error) {
     logger.error("Error logging in : ", error);
