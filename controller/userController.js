@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 const {
   HTTP_ERRORS,
   ERROR_MESSAGES,
-  HTTP_SUCCESS,
 } = require("../constants/apiContants");
 
 const userModel = require("../db/models/user");
