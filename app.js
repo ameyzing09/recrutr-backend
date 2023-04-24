@@ -1,14 +1,15 @@
-require("dotenv").config();
-const http = require("http");
+import dotenv from "dotenv";
+import { createServer } from "http";
 
-require("./db/dbConfig");
-const userApp = require("./lib/userApp");
+import userApp from "./lib/userApp.js";
 
-const logger = require("./lib/logger")("app.js");
+import useLogger from "./lib/logger.js";
+const logger = useLogger("app.js");
+
+dotenv.config();
 
 const PORT = process.env.PORT || 8080;
 
 userApp.initialiseBackendServer();
-http
-  .createServer(userApp.app)
+createServer(userApp.app)
   .listen(PORT, () => logger.info(`Backend server started at port ${PORT}`));

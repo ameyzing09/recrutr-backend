@@ -1,14 +1,13 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import { hash, compare } from "bcrypt";
+import jwt from "jsonwebtoken";
 
-const {
-  HTTP_ERRORS,
-  ERROR_MESSAGES,
-} = require("../constants/apiContants");
+import { HTTP_ERRORS, ERROR_MESSAGES } from "../constants/apiContants.js";
 
-const userModel = require("../db/models/user");
-const logger = require("../lib/logger")("userController.js");
-const StandardResponse = require("../routes/StandardResponse");
+import { fetchOne as fetchUserDetails, create as addUserDetails } from "../db/methods/user.method.js";
+import useLogger from "../lib/logger.js";
+import StandardResponse from "../routes/standardResponse.js";
+
+const logger = useLogger("userController.js");
 
 const response = new StandardResponse();
 
@@ -16,7 +15,7 @@ const createLogin = async (req, res) => {
   // Exists or not
   const { name, username, password, role } = req.body;
   try {
-    const existingUser = await userModel.findOne({
+    const existingUser = await fetchUserDetails({
       where: { username },
       raw: true,
     });
@@ -29,9 +28,9 @@ const createLogin = async (req, res) => {
       );
     }
 
-    const hashPassword = await bcrypt.hash(password, 10);
+    const hashPassword = await hash(password, 10);
 
-    const result = await userModel.create({
+    const result = await addUserDetails({
       name,
       username,
       password: hashPassword,
@@ -60,7 +59,7 @@ const login = async (req, res) => {
   try {
     
     const { username, password } = req.body;
-    const existingUser = await userModel.findOne({ where: { username }, raw: true });
+    const existingUser = await fetchUserDetails({ where: { username }, raw: true });
     if (!existingUser) {
       logger.error("User not found ");
       return response.sendErrorResponse(
@@ -69,8 +68,7 @@ const login = async (req, res) => {
         ERROR_MESSAGES.USER_NOT_FOUND
       );
     }
-    console.log("exisiting user ", existingUser)
-    const verifyPassword = await bcrypt.compare(
+    const verifyPassword = await compare(
       password,
       existingUser.password
     );
@@ -98,4 +96,4 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { login, createLogin };
+export { login, createLogin };

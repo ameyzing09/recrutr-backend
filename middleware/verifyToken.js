@@ -1,13 +1,15 @@
-const jwt = require('jsonwebtoken');
+import { verify } from 'jsonwebtoken';
 
-const logger = require('../lib/logger')('verifyToken.js');
+import useLogger from '../lib/logger.js'
+
+const logger = useLogger('verifyToken.js');
 
 const verifyToken = (req, res, next) => {
     const authHeader = req.headers.authorization || req.headers.Authorization;
     if (!authHeader?.startsWith('Bearer ')) return res.sendStatus(401);
     const token = authHeader.split(' ')[1];
     logger.info(`Token : ${token}`);
-    jwt.verify(
+    verify(
         token,
         process.env.JWT_TOKEN_SECRET_KEY,
         (err, decoded) => {
@@ -19,4 +21,4 @@ const verifyToken = (req, res, next) => {
     );
 }
 
-module.exports = verifyToken
+export default verifyToken

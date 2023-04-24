@@ -1,9 +1,11 @@
-const StandardResponse = require('./StandardResponse')
+import StandardResponse from './standardResponse.js'
 
-const { HTTP_ERRORS, ERROR_MESSAGES } = require('../constants/apiContants')
+import { HTTP_ERRORS, ERROR_MESSAGES } from '../constants/apiContants.js'
 
-const userRoute = require('./userRouter')
-const logger = require('../lib/logger')('userRoutes.js')
+import userRoute from './userRouter.js'
+import useLogger from '../lib/logger.js';
+
+const logger = useLogger('userRoutes.js')
 
 const response = new StandardResponse()
 
@@ -26,4 +28,4 @@ class UserRoutes {
     }
 }
 
-module.exports = UserRoutes
+export default UserRoutes
