@@ -1,61 +1,49 @@
-const { DataTypes, Model } = require('sequelize')
+import { DataTypes } from "sequelize";
 
-class User extends Model {
-    static get modelFields() {
-        return {
-            id: {
-                type: DataTypes.INTEGER(11),
-                allowNull: false,
-                primaryKey: true,
-                autoIncrement: true,
-            },
+import sequelize from "../dbConfig.js";
 
-            name: {
-                type: DataTypes.STRING(255),
-                allowNull: false
-            },
+const User = sequelize.define(
+  "User",
+  {
+    id: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+    },
 
-            username: {
-                type: DataTypes.STRING(55),
-                allowNull: false
-            },
+    name: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
 
-            password: {
-                type: DataTypes.STRING(255),
-                allowNull: false,
-            },
+    username: {
+      type: DataTypes.STRING(55),
+      allowNull: false,
+    },
 
-            is_sso_user: {
-                type: DataTypes.BOOLEAN,
-                allowNull: true
-            },
+    password: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
 
-            role: {
-                type: DataTypes.ENUM('ADMIN', 'HR', 'INTERVIEWER'),
-                allowNull: false
-            },
+    is_sso_user: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
 
-            status: {
-                type: DataTypes.ENUM('ACTIVE', 'INACTIVE', 'DELETED'),
-                allowNull: false
-            }
-        }
-    }
+    role: {
+      type: DataTypes.ENUM("ADMIN", "HR", "INTERVIEWER"),
+      allowNull: false,
+    },
 
-    static get modelOptions() {
-        return {
-            timestamps: false
-        }
-    }
-
-    static init(sequelize) {
-        const options = { ...this.modelOptions, sequelize, tableName: 'user' }
-        return super.init(this.modelFields, options);
-    }
-
-    static associate(models) {
-
-    }
-}
-
-module.exports = User
+    status: {
+      type: DataTypes.ENUM("ACTIVE", "INACTIVE", "DELETED"),
+      allowNull: false,
+    },
+  },
+  {
+    timestamps: false,
+  }
+);
+export default User;

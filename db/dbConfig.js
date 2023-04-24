@@ -1,81 +1,57 @@
-require("dotenv").config();
-const fs = require("fs");
-const Sequelize = require("sequelize");
-const logger = require("../lib/logger")("sequelize.js");
+import dotenv from "dotenv";
+import Sequelize from "sequelize";
+import useLogger from "../lib/logger.js";
 
-class sequelize {
-  async init() {
-    try {
-      const dbConfig = await this.getDBConfig();
-      const monitorDBConfig = JSON.parse(dbConfig.DB_CONFIG);
+const logger = useLogger("sequelize.js");
+dotenv.config();
 
-      this.sequelize = new Sequelize(
-        dbConfig.DB_NAME,
-        dbConfig.DB_USER,
-        dbConfig.DB_PASSWORD,
-        {
-          host: dbConfig.DB_HOST,
-          dialect: "mysql",
-          pool: {
-            max: monitorDBConfig.poolMax,
-            min: monitorDBConfig.poolMin,
-          },
-          define: {
-            freezeTableName: true,
-          },
-          logging: true,
-        }
-      );
-
-      fs.readdirSync(`${__dirname}/models/`)
-        .filter((file) => file.indexOf(".") !== 0 && file.indexOf(".js") > 0)
-        .forEach((file) => {
-          const model = require(`${__dirname}/models/${file}`);
-          model.init(this.sequelize);
-        });
-
-      const dbModels = this.sequelize.models;
-      Object.keys(dbModels).forEach((modelName) => {
-        if (dbModels[modelName].associate) {
-          dbModels[modelName].associate(dbModels);
-        }
-      });
-    } catch (error) {
-      logger.error("Error connecting to database ", error);
-      throw error;
-    }
+const getDBConfig = async () => {
+  if (
+    process.env.DB_HOST &&
+    process.env.DB_USER &&
+    process.env.DB_PASSWORD &&
+    process.env.DB_CONFIG
+  ) {
+    return {
+      DB_HOST: process.env.DB_HOST,
+      DB_USER: process.env.DB_USER,
+      DB_PASSWORD: process.env.DB_PASSWORD,
+      DB_CONFIG: process.env.DB_CONFIG,
+      DB_NAME: process.env.DB_NAME,
+    };
   }
-
-  async getDBConfig() {
-    // console.log('getDBConfig : ',process.env.DB_HOST, process.env.DB_USER, process.env.DB_PASSWORD, process.env.DB_CONFIG)
-    if (
-      process.env.DB_HOST &&
-      process.env.DB_USER &&
-      process.env.DB_PASSWORD &&
-      process.env.DB_CONFIG
-    ) {
-      return {
-        DB_HOST: process.env.DB_HOST,
-        DB_USER: process.env.DB_USER,
-        DB_PASSWORD: process.env.DB_PASSWORD,
-        DB_CONFIG: process.env.DB_CONFIG,
-        DB_NAME: process.env.DB_NAME,
-      };
-    }
-    return;
-    // TODO: code for DB creds taken from AWS, Azure, Google Cloud
-  }
-}
-
-const getConnection = async () => {
-  try {
-    const db = new sequelize();
-    await db.init();
-    // await db.authenticate();
-    logger.info("Connection has been established successfully.");
-  } catch (error) {
-    logger.error("Unable to connect to the database:", error);
-  }
+  return;
+  // TODO: code for DB creds taken from AWS, Azure, Google Cloud
 };
 
-module.exports = getConnection();
+
+const dbConfig = await getDBConfig();
+logger.info("DB Configuration fetch sucessfully");
+const monitorDBConfig = JSON.parse(dbConfig.DB_CONFIG);
+
+const sequelize = new Sequelize(
+  dbConfig.DB_NAME,
+  dbConfig.DB_USER,
+  dbConfig.DB_PASSWORD,
+  {
+    host: dbConfig.DB_HOST,
+    dialect: "mysql",
+    pool: {
+      max: monitorDBConfig.poolMax,
+      min: monitorDBConfig.poolMin,
+    },
+    define: {
+      freezeTableName: true,
+    },
+    logging: false,
+  }
+);
+
+try {
+  await sequelize.authenticate();
+  logger.info("Database authenticated successfully");
+} catch(err) {
+  logger.error("There was error in authenticating the database connection ", err);
+}
+
+export default sequelize;

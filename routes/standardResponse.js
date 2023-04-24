@@ -18,4 +18,4 @@ class StandardResponse {
     }
 }
 
-module.exports = StandardResponse
+export default StandardResponse
