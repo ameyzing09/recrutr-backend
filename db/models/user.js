@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 
 import sequelize from "../dbConfig.js";
 
-const User = sequelize.define(
+const user = sequelize.define(
   "User",
   {
     id: {
@@ -46,4 +46,4 @@ const User = sequelize.define(
     timestamps: false,
   }
 );
-export default User;
+export default user;

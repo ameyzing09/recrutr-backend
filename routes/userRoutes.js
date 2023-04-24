@@ -3,6 +3,8 @@ import StandardResponse from './standardResponse.js'
 import { HTTP_ERRORS, ERROR_MESSAGES } from '../constants/apiContants.js'
 
 import userRoute from './userRouter.js'
+import candidateRoute from './candidate.router.js'
+
 import useLogger from '../lib/logger.js';
 
 const logger = useLogger('userRoutes.js')
@@ -15,8 +17,8 @@ class UserRoutes {
     }
 
     init() {
-        logger.debug('In userRoutes init() ')
         this.app.use('/api', userRoute)
+        this.app.use('/api/candidate', candidateRoute);
 
         this.app.use((req, res) => {
             response.sendErrorResponse(

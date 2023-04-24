@@ -3,11 +3,14 @@ import jwt from "jsonwebtoken";
 
 import { HTTP_ERRORS, ERROR_MESSAGES } from "../constants/apiContants.js";
 
-import { fetchOne as fetchUserDetails, create as addUserDetails } from "../db/methods/user.method.js";
+import {
+  fetchOne as fetchUserDetails,
+  create as addUserDetails,
+} from "../db/methods/user.method.js";
 import useLogger from "../lib/logger.js";
 import StandardResponse from "../routes/standardResponse.js";
 
-const logger = useLogger("userController.js");
+const logger = useLogger("user.controller.js");
 
 const response = new StandardResponse();
 
@@ -20,10 +23,10 @@ const createLogin = async (req, res) => {
       raw: true,
     });
     if (existingUser) {
-      logger.info(`User ${username} already exists`)
+      logger.info(`User ${username} already exists`);
       return response.sendErrorResponse(
         res,
-        HTTP_ERRORS.BAD_REQUEST,
+        HTTP_ERRORS.CONFLICT,
         ERROR_MESSAGES.USER_ALREADY_EXISTS
       );
     }
@@ -43,7 +46,7 @@ const createLogin = async (req, res) => {
       { id: result.id, username: result.username },
       process.env.JWT_TOKEN_SECRET_KEY
     );
-    logger.info(`User ${JSON.stringify(result)} created`)
+    logger.info(`User ${JSON.stringify(result)} created`);
     response.sendSuccessResponse(res, { user: result, token });
   } catch (error) {
     logger.error("Error occurred while creating user : ", error);
@@ -57,9 +60,11 @@ const createLogin = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    
     const { username, password } = req.body;
-    const existingUser = await fetchUserDetails({ where: { username }, raw: true });
+    const existingUser = await fetchUserDetails({
+      where: { username },
+      raw: true,
+    });
     if (!existingUser) {
       logger.error("User not found ");
       return response.sendErrorResponse(
@@ -68,10 +73,7 @@ const login = async (req, res) => {
         ERROR_MESSAGES.USER_NOT_FOUND
       );
     }
-    const verifyPassword = await compare(
-      password,
-      existingUser.password
-    );
+    const verifyPassword = await compare(password, existingUser.password);
     if (!verifyPassword) {
       logger.error("Invalid password");
       return response.sendErrorResponse(
@@ -84,7 +86,9 @@ const login = async (req, res) => {
       { id: existingUser.id, username: existingUser.username },
       process.env.JWT_TOKEN_SECRET_KEY
     );
-    logger.info(`User login successful ${JSON.stringify(existingUser)} and token ${token}`);
+    logger.info(
+      `User login successful ${JSON.stringify(existingUser)} and token ${token}`
+    );
     return response.sendSuccessResponse(res, { user: existingUser, token });
   } catch (error) {
     logger.error("Error logging in : ", error);
