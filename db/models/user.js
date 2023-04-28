@@ -1,3 +1,4 @@
+import moment from "moment";
 import { DataTypes } from "sequelize";
 
 import sequelize from "../dbConfig.js";
@@ -41,9 +42,20 @@ const user = sequelize.define(
       type: DataTypes.ENUM("ACTIVE", "INACTIVE", "DELETED"),
       allowNull: false,
     },
+    created_ts: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: sequelize.literal('NOW()')
+    },
+    updated_ts: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   },
   {
     timestamps: false,
+    createdAt: 'created_ts',
+    updatedAt: 'updated_ts'
   }
 );
 export default user;
