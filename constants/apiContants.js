@@ -51,9 +51,21 @@ const ERROR_MESSAGES = {
     code: "CANDIDATE_ALREADY_EXISTS",
     message: "Candidate already exists"
   },
+  CANDIDATE_DOES_NOT_EXISTS: {
+    code: "CANDIDATE_DOES_NOT_EXISTS",
+    message: "Candidate does not exists"
+  },
+  FAILED_TO_CREATE_CANDIDATE: {
+    code: "FAILED_TO_CREATE_CANDIDATE",
+    message: "Failed to create candidate"
+  },
   FAILED_TO_FETCH_CANDIDATE_DETAILS: {
     code: "FAILED_TO_FETCH_CANDIDATE_DETAILS",
     message: "Failed to fetch candidate details"
+  },
+  FAILED_TO_UPDATE_CANDIDATE_DETAILS: {
+    code: "FAILED_TO_UPDATE_CANDIDATE_DETAILS",
+    message: "Failed to update candidate details"
   },
   INVALID_CREDENTIALS: {
     code: "INVALID_CREDENTIALS",

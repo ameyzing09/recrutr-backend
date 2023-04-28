@@ -29,7 +29,10 @@ const getCandidateById = async (candidateId) => {
     return candidateDetails;
   } catch (err) {
     logger.error(`Error while fetching candidate with id ${candidateId} `, err);
-    throw err;
+    throw {
+      code: err.code || HTTP_ERRORS.INTERNAL_SERVER_ERROR,
+      message: err.message || ERROR_MESSAGES.FAILED_TO_FETCH_CANDIDATE_DETAILS,
+    };
   }
 };
 
@@ -109,7 +112,6 @@ const createCandidate = async (req) => {
       },
       raw: true,
     });
-    console.log("Existing candidate : ", existingCandidate, !existingCandidate);
     if (existingCandidate) {
       logger.info(`Candidate ${candidateName} already exists`);
       throw {
@@ -133,7 +135,10 @@ const createCandidate = async (req) => {
   } catch (err) {
     console.log(err);
     logger.error("Error occurred while creating candidate info : ", err);
-    throw err;
+    throw {
+      code: err.code || HTTP_ERRORS.INTERNAL_SERVER_ERROR,
+      message: err.message || ERROR_MESSAGES.FAILED_TO_CREATE_CANDIDATE,
+    }
   }
 };
 
@@ -186,12 +191,15 @@ const modifyCandidate = async (req) => {
     } else {
       throw {
         code: HTTP_ERRORS.INTERNAL_SERVER_ERROR,
-        message: ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
+        message: ERROR_MESSAGES.FAILED_TO_UPDATE_CANDIDATE_DETAILS,
       };
     }
   } catch (err) {
     logger.error("Error occurred while updating candidate info : ", err);
-    throw err;
+    throw {
+      code: err.code || HTTP_ERRORS.INTERNAL_SERVER_ERROR,
+        message: err.message || ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
+    };
   }
 };
 
@@ -202,10 +210,19 @@ const deleteCandidate = async (candidateId) => {
         id: candidateId,
       },
     });
-    console.log(deletedCandidate);
+    if(deletedCandidate <= 0) {
+      throw {
+        code: HTTP_ERRORS.NOT_FOUND,
+        message: ERROR_MESSAGES.CANDIDATE_DOES_NOT_EXISTS,
+      };
+    }
+    return deletedCandidate;
   } catch (err) {
-    logger.error(`Error while deleting the candidate with id ${id} `, err);
-    throw err;
+    logger.error(`Error while deleting the candidate with id ${candidateId} `, JSON.stringify(err));
+    throw {
+      code : err.code || HTTP_ERRORS.INTERNAL_SERVER_ERROR,
+      message: err.message || ERROR_MESSAGES.INTERNAL_SERVER_ERROR
+    };
   }
 };
 
