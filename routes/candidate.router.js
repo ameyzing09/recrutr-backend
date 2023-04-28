@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import {
   createCandidate,
+  deleteCandidate,
   getCandidateById,
   getCandidatesByPage,
   modifyCandidate,
@@ -17,6 +18,6 @@ router.post("/", createCandidate);
 
 router.put("/:candidateId", modifyCandidate);
 
-router.delete("/:candidateId");
+router.delete("/:candidateId", deleteCandidate);
 
 export default router;
