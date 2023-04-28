@@ -46,13 +46,14 @@ module.exports = {
         type: Sequelize.ENUM("ACTIVE", "INACTIVE", "DELETED"),
         allowNull: false,
       },
-      createdAt: {
+      created_ts: {
         type: Sequelize.DATE,
         allowNull: false,
+        defaultValue: Sequelize.literal('NOW()')
       },
-      updatedAt: {
+      updated_ts: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
       },
     });
 
@@ -77,7 +78,7 @@ module.exports = {
       },
       candidate_dob: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
       },
       candidate_gender: {
         type: Sequelize.ENUM("MALE", "FEMALE", "OTHER"),
@@ -89,19 +90,20 @@ module.exports = {
       },
       candidate_resume: {
         type: Sequelize.BLOB,
-        allowNull: false,
+        allowNull: true,
       },
       candidate_experience: {
         type: Sequelize.FLOAT(11),
         allowNull: false,
       },
-      createdAt: {
+      created_ts: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
+        defaultValue: Sequelize.literal('NOW()')
       },
-      updatedAt: {
+      updated_ts: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
       },
     });
   },
