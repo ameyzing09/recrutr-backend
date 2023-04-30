@@ -1,12 +1,23 @@
-import addCandidateInfo from "../controller/candidate.controller.js";
-
 import { Router } from "express";
+
+import {
+  createCandidate,
+  deleteCandidate,
+  getCandidateById,
+  getCandidatesByPage,
+  modifyCandidate,
+} from "../controller/candidate.controller.js";
+
 const router = Router();
 
-router.post("/", addCandidateInfo);
+router.get("/", getCandidatesByPage);
 
-// router.post("/signup", createLogin);
+router.get("/:candidateId", getCandidateById);
 
-// router.get('/logout', logout)
+router.post("/", createCandidate);
+
+router.put("/:candidateId", modifyCandidate);
+
+router.delete("/:candidateId", deleteCandidate);
 
 export default router;

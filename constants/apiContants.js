@@ -19,6 +19,14 @@ const ERROR_MESSAGES = {
     code: 'INVALID_REQUEST',
     message: 'Invalid Request'
   },
+  INVALID_LIMIT: {
+    code: 'INVALID_LIMIT',
+    message: 'Invalid Limit'
+  },
+  INVALID_PAGE: {
+    code: 'INVALID_PAGE',
+    message: 'Invalid Page'
+  },
   INTERNAL_SERVER_ERROR: {
     code: 'INTERNAL_SERVER_ERROR',
     message: 'Internal server error'
@@ -42,6 +50,22 @@ const ERROR_MESSAGES = {
   CANDIDATE_ALREADY_EXISTS: {
     code: "CANDIDATE_ALREADY_EXISTS",
     message: "Candidate already exists"
+  },
+  CANDIDATE_DOES_NOT_EXISTS: {
+    code: "CANDIDATE_DOES_NOT_EXISTS",
+    message: "Candidate does not exists"
+  },
+  FAILED_TO_CREATE_CANDIDATE: {
+    code: "FAILED_TO_CREATE_CANDIDATE",
+    message: "Failed to create candidate"
+  },
+  FAILED_TO_FETCH_CANDIDATE_DETAILS: {
+    code: "FAILED_TO_FETCH_CANDIDATE_DETAILS",
+    message: "Failed to fetch candidate details"
+  },
+  FAILED_TO_UPDATE_CANDIDATE_DETAILS: {
+    code: "FAILED_TO_UPDATE_CANDIDATE_DETAILS",
+    message: "Failed to update candidate details"
   },
   INVALID_CREDENTIALS: {
     code: "INVALID_CREDENTIALS",
