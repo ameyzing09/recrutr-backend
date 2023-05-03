@@ -11,11 +11,12 @@ import { ERROR_MESSAGES, HTTP_ERRORS } from "../constants/apiContants.js";
 
 const logger = useLogger("candidate.service.js");
 
-const getCandidateById = async (candidateId) => {
+const getCandidateById = async ({candidateId, userId}) => {
   try {
     const candidateDetails = await fetchOneCandidateDetails({
       where: {
         id: candidateId,
+        user_id: userId
       },
       raw: true,
     });
@@ -43,7 +44,7 @@ const getCandidateById = async (candidateId) => {
  * @param {Object} candidateDetails
  */
 
-const getCandidatesByPage = async (limit = 10, page = 1) => {
+const getCandidatesByPage = async (userId, limit = 10, page = 1) => {
   try {
     if (typeof limit !== "number" || limit <= 0) {
       throw {
@@ -59,6 +60,9 @@ const getCandidatesByPage = async (limit = 10, page = 1) => {
     }
     const offset = (page - 1) * limit;
     const { count, rows } = await fetchAllCandidatesWithPagination({
+      where: {
+        user_id: userId,
+      },
       limit,
       offset,
       order: [["candidate_name", "ASC"]],
@@ -133,7 +137,6 @@ const createCandidate = async (req) => {
     logger.info(`Candidate ${JSON.stringify(createdCandidate)} created`);
     return createdCandidate;
   } catch (err) {
-    console.log(err);
     logger.error("Error occurred while creating candidate info : ", err);
     throw {
       code: err.code || HTTP_ERRORS.INTERNAL_SERVER_ERROR,

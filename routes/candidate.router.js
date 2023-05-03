@@ -1,5 +1,7 @@
 import { Router } from "express";
 
+import verifyToken from "../middleware/verifyToken.js";
+
 import {
   createCandidate,
   deleteCandidate,
@@ -10,14 +12,14 @@ import {
 
 const router = Router();
 
-router.get("/", getCandidatesByPage);
+router.get("/", verifyToken, getCandidatesByPage);
 
-router.get("/:candidateId", getCandidateById);
+router.get("/:candidateId", verifyToken, getCandidateById);
 
-router.post("/", createCandidate);
+router.post("/", verifyToken, createCandidate);
 
-router.put("/:candidateId", modifyCandidate);
+router.put("/:candidateId", verifyToken, modifyCandidate);
 
-router.delete("/:candidateId", deleteCandidate);
+router.delete("/:candidateId", verifyToken, deleteCandidate);
 
 export default router;

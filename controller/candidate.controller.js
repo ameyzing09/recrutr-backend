@@ -12,14 +12,15 @@ const logger = useLogger("candidate.controller.js");
 const getCandidateById = async (req, res) => {
   try {
     const candidateDetails = await candidateService.getCandidateById(
-      req.params.candidateId
+      {candidateId: req.params.candidateId, userId: req.userInfo.id}
     );
     response.sendSuccessResponse(res, candidateDetails);
   } catch (err) {
-    logger.error("Error occurred while fetching candidate : ", JSON.stringify(err));
-    if (err.code === HTTP_ERRORS.NOT_FOUND) {
-      response.sendErrorResponse(res, err.code, err.message);
-    }
+    logger.error(
+      "Error occurred while fetching candidate : ",
+      JSON.stringify(err)
+    );
+    response.sendErrorResponse(res, err.code, err.message);
   }
 };
 
@@ -27,7 +28,7 @@ const getCandidatesByPage = async (req, res) => {
   try {
     const { limit, page } = req.query;
     const { candidateDetails, totalPages, totalCandidates } =
-      await candidateService.getCandidatesByPage(limit, page);
+      await candidateService.getCandidatesByPage(req.userInfo.id, limit, page);
     response.sendSuccessResponse(res, {
       candidateDetails,
       totalPages,
@@ -47,14 +48,7 @@ const createCandidate = async (req, res) => {
     });
   } catch (err) {
     logger.error("Error occurred while adding candidate : ", err);
-    if (err.code === HTTP_ERRORS.CONFLICT) {
-      response.sendErrorResponse(res, err.code, err.message);
-    }
-    response.sendErrorResponse(
-      res,
-      HTTP_ERRORS.INTERNAL_SERVER_ERROR,
-      ERROR_MESSAGES.INTERNAL_SERVER_ERROR
-    );
+    response.sendErrorResponse(res, err.code, err.message);
   }
 };
 
@@ -64,11 +58,7 @@ const modifyCandidate = async (req, res) => {
     response.sendSuccessResponse(res, { updatedCandidate });
   } catch (err) {
     logger.error("Error occurred while updating candidate : ", err);
-    if (err.code === HTTP_ERRORS.NOT_FOUND) {
-      response.sendErrorResponse(res, err.code, err.message);
-    } else if (err.code === HTTP_ERRORS.INTERNAL_SERVER_ERROR) {
-      response.sendErrorResponse(res, err.code, err.message);
-    }
+    response.sendErrorResponse(res, err.code, err.message);
   }
 };
 

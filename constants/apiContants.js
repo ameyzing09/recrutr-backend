@@ -31,6 +31,14 @@ const ERROR_MESSAGES = {
     code: 'INTERNAL_SERVER_ERROR',
     message: 'Internal server error'
   },
+  INVALID_CREDENTIALS: {
+    code: "INVALID_CREDENTIALS",
+    message: "Invalid credentials"
+  },
+  UNAUTHORIZED: {
+    code: 'UNAUTHORIZED',
+    message: 'Unauthorized',
+  },
   NOT_FOUND: {
     code: 'NOT_FOUND',
     message: 'Not found'
@@ -67,10 +75,6 @@ const ERROR_MESSAGES = {
     code: "FAILED_TO_UPDATE_CANDIDATE_DETAILS",
     message: "Failed to update candidate details"
   },
-  INVALID_CREDENTIALS: {
-    code: "INVALID_CREDENTIALS",
-    message: "Invalid credentials"
-  }
 };
 
 const SUCCESS_MESSAGES = {
