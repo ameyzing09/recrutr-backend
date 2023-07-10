@@ -15,9 +15,10 @@ const createLogin = async (req, res) => {
 
 const userLogin = async (req, res) => {
   try {
-    const { user, token } = await userService.loginUser(req.body);
-    response.sendSuccessResponse(res, { user, token });
+    const { token } = await userService.loginUser(req.body);
+    response.sendSuccessResponse(res, { token });
   } catch (err) {
+    console.log(err);
     response.sendErrorResponse(res, err.code, err.message);
   }
 };
