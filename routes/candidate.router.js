@@ -1,5 +1,7 @@
 import { Router } from "express";
 
+import verifyToken from "../middleware/verifyToken.js";
+
 import {
   createCandidate,
   deleteCandidate,
@@ -7,17 +9,41 @@ import {
   getCandidatesByPage,
   modifyCandidate,
 } from "../controller/candidate.controller.js";
+import candidateValidation from "../middleware/validations/candidateValidations.js";
+import requestValidation from "../middleware/validations/requestValidations.js";
 
 const router = Router();
 
-router.get("/", getCandidatesByPage);
+router.get("/", verifyToken, getCandidatesByPage);
 
-router.get("/:candidateId", getCandidateById);
+router.get(
+  "/:candidateId",
+  verifyToken,
+  candidateValidation.getCandidateIdQuery,
+  requestValidation,
+  getCandidateById
+);
 
-router.post("/", createCandidate);
+router.post(
+  "/",
+  verifyToken,
+  candidateValidation.createCandidateBody,
+  requestValidation,
+  createCandidate
+);
 
-router.put("/:candidateId", modifyCandidate);
+router.put(
+  "/:candidateId",
+  verifyToken,
+  [
+    candidateValidation.getCandidateIdQuery,
+    requestValidation,
+    candidateValidation.modifyCandidateBody,
+    requestValidation,
+  ],
+  modifyCandidate
+);
 
-router.delete("/:candidateId", deleteCandidate);
+router.delete("/:candidateId", verifyToken, deleteCandidate);
 
 export default router;

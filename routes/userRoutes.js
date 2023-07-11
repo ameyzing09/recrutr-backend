@@ -17,7 +17,7 @@ class UserRoutes {
     }
 
     init() {
-        this.app.use('/api', userRoute)
+        this.app.use('/api/auth', userRoute)
         this.app.use('/api/candidate', candidateRoute);
 
         this.app.use((req, res) => {
