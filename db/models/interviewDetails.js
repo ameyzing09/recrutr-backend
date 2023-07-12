@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 
 import sequelize from "../dbConfig.js";
 
-export default interviewDetail = sequelize.define(
+const interviewDetails = sequelize.define(
   "interview_detail",
   {
     id: {
@@ -60,3 +60,5 @@ export default interviewDetail = sequelize.define(
     updatedAt: "updated_ts",
   }
 );
+
+export default interviewDetails;

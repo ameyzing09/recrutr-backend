@@ -6,7 +6,7 @@ import {
   create as addCandidateDetails,
   fetchAndCountAll as fetchAllCandidatesWithPagination,
   erase as deleteCandidateDetails,
-} from "../db/methods/candidateInfo.method.js";
+} from "../db/methods/candidateInfoMethod.js";
 import { ERROR_MESSAGES, HTTP_ERRORS } from "../constants/apiContants.js";
 
 const logger = useLogger("candidate.service.js");

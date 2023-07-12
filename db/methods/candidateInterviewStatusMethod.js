@@ -1,9 +1,9 @@
 import candidateInterviewStatusModel from "../models/candidateInterviewStatus";
 import interviewDetailsModel from "../models/interviewDetails";
-import interviewRoundModel from "../models/interviewRound";
+import interviewRoundsModel from "../models/interviewRound";
 
 candidateInterviewStatusModel.belongsTo(interviewDetailsModel, { foreignKey: 'interview_id' });
-candidateInterviewStatusModel.belongsTo(interviewRoundModel, { foreignKey: 'round_id' });
+candidateInterviewStatusModel.belongsTo(interviewRoundsModel, { foreignKey: 'round_id' });
 
 export const create = async (payload) => await candidateInterviewStatusModel.create(payload);
 export const fetchOne = async (payload) => await candidateInterviewStatusModel.findOne(payload);

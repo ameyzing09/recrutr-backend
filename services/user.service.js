@@ -7,7 +7,7 @@ import { HTTP_ERRORS, ERROR_MESSAGES } from "../constants/apiContants.js";
 import {
   fetchOne as fetchUserDetails,
   create as addUserDetails,
-} from "../db/methods/user.method.js";
+} from "../db/methods/userMethod.js";
 import useLogger from "../lib/logger.js";
 
 const logger = useLogger("user.service.js");

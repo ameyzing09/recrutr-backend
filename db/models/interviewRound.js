@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 
 import sequelize from "../dbConfig.js";
 
-export default interviewRound = sequelize.define(
+const interviewRounds = sequelize.define(
   "interview_round",
   {
     id: {
@@ -31,3 +31,5 @@ export default interviewRound = sequelize.define(
     updatedAt: "updated_ts",
   }
 );
+
+export default interviewRounds;

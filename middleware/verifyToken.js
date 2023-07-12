@@ -5,7 +5,7 @@ import { DB_STATUS } from "../constants/commonConstants.js";
 import useLogger from "../lib/logger.js";
 import authUtils from "../utils/authUtils.js";
 
-import { fetchOne as fetchOneUserDetails } from "../db/methods/user.method.js";
+import { fetchOne as fetchOneUserDetails } from "../db/methods/userMethod.js";
 
 const logger = useLogger("verifyToken.js");
 

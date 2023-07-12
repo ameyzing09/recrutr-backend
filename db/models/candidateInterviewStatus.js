@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 
 import sequelize from "../dbConfig.js";
 
-export default candidateInterviewStatus = sequelize.define(
+const candidateInterviewStatus = sequelize.define(
   "candidate_interview_status",
   {
     id: {
@@ -38,3 +38,5 @@ export default candidateInterviewStatus = sequelize.define(
     updatedAt: "updated_ts",
   }
 );
+
+export default candidateInterviewStatus;
