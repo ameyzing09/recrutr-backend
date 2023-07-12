@@ -1,6 +1,5 @@
 import useLogger from "../lib/logger.js";
 
-import { ERROR_MESSAGES, HTTP_ERRORS } from "../constants/apiContants.js";
 
 import candidateService from "../services/candidate.service.js";
 import StandardResponse from "../routes/standardResponse.js";
