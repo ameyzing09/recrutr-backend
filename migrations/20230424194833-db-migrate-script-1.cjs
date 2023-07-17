@@ -49,7 +49,7 @@ module.exports = {
       created_ts: {
         type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal('NOW()')
+        defaultValue: Sequelize.literal("NOW()"),
       },
       updated_ts: {
         type: Sequelize.DATE,
@@ -99,11 +99,113 @@ module.exports = {
       created_ts: {
         type: Sequelize.DATE,
         allowNull: true,
-        defaultValue: Sequelize.literal('NOW()')
+        defaultValue: Sequelize.literal("NOW()"),
       },
       updated_ts: {
         type: Sequelize.DATE,
         allowNull: true,
+      },
+    });
+
+    await queryInterface.createTable("interview_rounds", {
+      id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+      },
+      round_number: {
+        type: Sequelize.INTEGER(11),
+      },
+      round_description: {
+        type: Sequelize.STRING(255),
+      },
+      created_ts: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal("NOW()"),
+      },
+      updated_ts: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
+    });
+
+    await queryInterface.createTable("interview_details", {
+      id: {
+        type: Sequelize.INTEGER(11),
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      candidate_id: {
+        type: Sequelize.INTEGER(11),
+        allowNull: false,
+        references: {
+          model: "candidate_info",
+          key: "id",
+        },
+      },
+      user_id: {
+        type: Sequelize.INTEGER(11),
+        allowNull: false,
+        references: {
+          model: "user",
+          key: "id",
+        },
+      },
+      round_id: {
+        type: Sequelize.INTEGER(11),
+        allowNull: false,
+        references: {
+          model: "interview_rounds",
+          key: "id",
+        },
+      },
+      interview_date: {
+        type: Sequelize.DATE,
+      },
+      interview_time: {
+        type: Sequelize.TIME,
+      },
+      interview_location: {
+        type: Sequelize.STRING(255),
+      },
+      created_ts: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal("NOW()"),
+      },
+      updated_ts: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
+    });
+
+    await queryInterface.createTable("candidate_interview_status", {
+      id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+      },
+      interview_id: {
+        type: Sequelize.INTEGER(11),
+        allowNull: false,
+        references: {
+          model: "interview_details",
+          key: "id",
+        },
+      },
+      round_id: {
+        type: Sequelize.INTEGER(11),
+        allowNull: false,
+        references: {
+          model: "interview_rounds",
+          key: "id",
+        },
+      },
+      status: {
+        type: Sequelize.STRING(255),
+      },
+      remarks: {
+        type: Sequelize.STRING(255),
       },
     });
   },
@@ -115,7 +217,10 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.dropTable("candidate_info");
     await queryInterface.dropTable("users");
+    await queryInterface.dropTable("candidate_info");
+    await queryInterface.dropTable("interview_rounds");
+    await queryInterface.dropTable("interview_details");
+    await queryInterface.dropTable("candidate_interview_status");
   },
 };

@@ -3,7 +3,7 @@ import { DataTypes } from "sequelize";
 import sequelize from "../dbConfig.js";
 
 const interviewRounds = sequelize.define(
-  "interview_round",
+  "interview_rounds",
   {
     id: {
       type: DataTypes.INTEGER,
